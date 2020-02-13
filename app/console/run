@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+use \app\services\ServicesContainer;
+use \Symfony\Component\Console\Application;
+use \app\cli\commands\UpdateCurrencyRates;
+
+require __DIR__ . '/../vendor/autoload.php';
+$services = new ServicesContainer();
+$services->env->init();
+$services->config->init();
+$services->whoops->init();
+
+$app = new Application('Currency Converter CLI', '1.0');
+$app->addCommands([
+    new UpdateCurrencyRates($services),
+]);
+$app->run();
