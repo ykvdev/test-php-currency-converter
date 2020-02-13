@@ -6,6 +6,8 @@ class IndexController extends AbstractController
 {
     protected function indexAction() : void
     {
-        $this->renderView('index/index');
+        $this->renderView('index/index', [
+            'js' => ['/assets/js/page-index.js'],
+        ]);
     }
 }

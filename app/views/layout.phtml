@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/assets/css/common.css">
+    <?php if (isset($css)): ?>
+        <?php foreach ($css as $path): ?>
+            <link rel="stylesheet" href="<?= $path ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
 
     <title><?= $this->e($title) ?> | Ringostat Test Task</title>
 </head>
@@ -21,5 +26,14 @@
         <?= $this->section('content') ?>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<?php if (isset($js)): ?>
+    <?php foreach ($js as $path): ?>
+        <script type="text/javascript" src="<?= $path ?>"></script>
+    <?php endforeach; ?>
+<?php endif; ?>
 </body>
 </html>
