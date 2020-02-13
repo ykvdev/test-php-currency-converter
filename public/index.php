@@ -3,30 +3,54 @@
 use app\controllers\AbstractController;
 use app\controllers\CommonController;
 use FastRoute\Dispatcher;
-use \app\services\ServicesContainer;
+use \app\services\ConfigService;
+use \app\services\ConsoleIoService;
+use \app\services\FastRouteService;
+use \app\services\GuzzleService;
+use \app\services\RatesDbService;
+use \app\services\EnvService;
+use \app\services\ViewRendererService;
+use \app\services\WhoopsService;
 
 new class
 {
-    /** @var ServicesContainer */
-    private $services;
+    /** @var \DI\Container */
+    private $di;
+
+    /** @var EnvService */
+    private $envService;
+
+    /** @var FastRouteService */
+    private $fastRouteService;
 
     public function __construct()
     {
         $this->outputAssetIfNeed();
 
         session_start();
+
         require __DIR__ . '/../vendor/autoload.php';
-        $this->services = new ServicesContainer();
-        $this->services->env->init();
-        $this->services->config->init();
-        $this->services->whoops->init();
+
+        $this->di = new DI\Container();
+        $this->di->make(WhoopsService::class);
+        $this->fastRouteService = $this->di->get(FastRouteService::class);
+        $this->envService = $this->di->get(EnvService::class);
+
+// for prod
+//        $builder = new \DI\ContainerBuilder();
+//        $builder->enableCompilation(__DIR__ . '/tmp');
+//        $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
+//        $container = $builder->build();
 
         try {
             $actionData = $this->getActionData();
-            $this->invokeAction($actionData['controller'], $actionData['action'], $actionData['params']);
+//            $this->invokeAction($actionData['controller'], $actionData['action'], $actionData['params']);
+            $this->di->call([$actionData['controller'], $actionData['action'] . 'Action'],
+                ['routeParams' => $actionData['params']]);
         } catch (\Throwable $e) {
-            if($this->services->env->isProd()) {
-                $this->invokeAction(CommonController::class, 'error500');
+            if($this->envService->isProd()) {
+//                $this->invokeAction(CommonController::class, 'error500');
+                $this->di->call([CommonController::class, 'error500']);
             } else {
                 throw $e;
             }
@@ -53,7 +77,7 @@ new class
 
     private function getActionData(): array
     {
-        $routeData = $this->services->fastRoute->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $routeData = $this->fastRouteService->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
         switch ($routeData['result']) {
             case Dispatcher::NOT_FOUND:
                 $controller = CommonController::class;
@@ -76,10 +100,12 @@ new class
         return compact('controller', 'action', 'params');
     }
 
-    private function invokeAction(string $controllerClassName, string $actionAlias, array $routeParams = []) : void
-    {
+//    private function invokeAction(string $controllerClassName, string $actionAlias, array $routeParams = []) : void
+//    {
         /** @var AbstractController $controller */
-        $controller = new $controllerClassName($this->services, $routeParams);
-        $controller->{$actionAlias . 'Action'}();
-    }
+//        $controller = new $controllerClassName($this->services, $routeParams);
+//        $controller->{$actionAlias . 'Action'}();
+
+//        $this->di->call([$controllerClassName, $actionAlias . 'Action'], compact('routeParams'));
+//    }
 };

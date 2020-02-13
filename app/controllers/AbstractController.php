@@ -2,29 +2,38 @@
 
 namespace app\controllers;
 
-use app\services\ServicesContainer;
+use app\services\ViewRendererService;
 
 abstract class AbstractController
 {
-    /** @var ServicesContainer */
-    protected $services;
+    /** @var ViewRendererService */
+    private $viewRendererService;
 
     /** @var array */
-    protected $get;
+    private $routeParams;
 
-    /** @var array */
-    protected $post;
-
-    public function __construct(ServicesContainer $services, array $routeParams)
+    public function __construct(ViewRendererService $viewRendererService, array $routeParams)
     {
-        $this->services = $services;
-        $this->get = array_map('trim', array_merge($routeParams, $_GET));
-        $this->post = array_map('trim', $_POST);
+        $this->viewRendererService = $viewRendererService;
+        $this->routeParams = $routeParams;
+
+//        $this->get = array_map('trim', array_merge($routeParams, $_GET));
+//        $this->post = array_map('trim', $_POST);
+    }
+
+    protected function getVar(string $var): ?string
+    {
+        return trim($this->routeParams[$var]) ?? trim($_GET[$var]) ?? null;
+    }
+
+    protected function postVar(string $var): ?string
+    {
+        return trim($_POST[$var]) ?? null;
     }
 
     protected function renderView(string $viewAlias, array $vars = []) : void
     {
-        echo $this->services->viewRenderer->render($viewAlias, $vars);
+        echo $this->viewRendererService->render($viewAlias, $vars);
         exit();
     }
 

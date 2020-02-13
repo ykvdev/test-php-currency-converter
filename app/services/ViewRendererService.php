@@ -5,14 +5,19 @@ namespace app\services;
 use League\Plates\Engine;
 use League\Plates\Extension\URI;
 
-class ViewRendererService extends AbstractService
+class ViewRendererService
 {
+    /** @var ConfigService */
+    private $configService;
+
     /** @var Engine */
     private $renderer;
 
-    public function init(): void
+    public function __construct(ConfigService $configService)
     {
-        $config = $this->services->config->get('services.view_renderer');
+        $this->configService = $configService;
+
+        $config = $this->configService->get('services.view_renderer');
         $this->renderer = new Engine($config['path'], $config['extension']);
         $this->renderer->loadExtension(new URI($_SERVER['PATH_INFO'] ?? null));
     }

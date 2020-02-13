@@ -2,7 +2,7 @@
 
 namespace app\services;
 
-class EnvService extends AbstractService
+class EnvService
 {
     private const DEV = 'dev';
     private const PROD = 'prod';
@@ -10,7 +10,7 @@ class EnvService extends AbstractService
     /** @var string */
     private $current;
 
-    public function init() : void
+    public function __construct()
     {
         $this->current = getenv('ENV_CURRENT');
         $this->current = in_array($this->current, [self::DEV, self::PROD]) ? $this->current : self::DEV;

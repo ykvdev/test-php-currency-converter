@@ -2,7 +2,7 @@
 
 namespace app\cli\commands;
 
-use app\services\ServicesContainer;
+use app\services\ConsoleIoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,13 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCurrencyRates extends Command
 {
-    /** @var ServicesContainer */
-    private $services;
+    /** @var ConsoleIoService */
+    private $consoleIoService;
 
-    public function __construct(ServicesContainer $services)
+    public function __construct(ConsoleIoService $consoleIoService)
     {
         parent::__construct();
-        $this->services = $services;
+
+        $this->consoleIoService = $consoleIoService;
     }
 
     protected function configure(): void
@@ -32,7 +33,7 @@ class UpdateCurrencyRates extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->services->consoleIo
+        $this->consoleIoService
             ->setCommandAlias($this->getName())
             ->setInput($input)
             ->setOutput($output);
@@ -43,7 +44,7 @@ class UpdateCurrencyRates extends Command
         try {
             //...
         } catch (\Throwable $e) {
-            $this->services->consoleIo->error(
+            $this->consoleIoService->error(
                 PHP_EOL . '(' . get_class($e) . ') ' . $e->getMessage()
                 . PHP_EOL . $e->getTraceAsString()
             );

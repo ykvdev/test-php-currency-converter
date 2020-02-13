@@ -6,13 +6,12 @@ use \Symfony\Component\Console\Application;
 use \app\cli\commands\UpdateCurrencyRates;
 
 require __DIR__ . '/../vendor/autoload.php';
-$services = new ServicesContainer();
-$services->env->init();
-$services->config->init();
-$services->whoops->init();
+
+$di = new DI\Container();
+$di->make(WhoopsService::class);
 
 $app = new Application('Currency Converter CLI', '1.0');
 $app->addCommands([
-    new UpdateCurrencyRates($services),
+    $di->get(UpdateCurrencyRates::class),
 ]);
 $app->run();

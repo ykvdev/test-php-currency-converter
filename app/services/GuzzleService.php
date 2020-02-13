@@ -5,14 +5,19 @@ namespace app\services;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-class GuzzleService extends AbstractService
+class GuzzleService
 {
+    /** @var ConfigService */
+    private $configService;
+
     /** @var Client */
     private $client;
 
-    public function init(): void
+    public function __construct(ConfigService $configService)
     {
-        $this->client = new Client(['http_errors' => $this->services->config->get('guzzle.http_errors')]);
+        $this->configService = $configService;
+
+        $this->client = new Client(['http_errors' => $this->configService->get('guzzle.http_errors')]);
     }
 
     public function sendGetRequest(string $url): ?string
@@ -20,7 +25,7 @@ class GuzzleService extends AbstractService
         $response = $this->client->request('GET', $url, [
             RequestOptions::ALLOW_REDIRECTS => true,
             RequestOptions::HEADERS => [
-                'User-Agent' => $this->services->config->get('guzzle.user_agent'),
+                'User-Agent' => $this->configService->get('guzzle.user_agent'),
             ]
         ]);
 

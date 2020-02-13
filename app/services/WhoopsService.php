@@ -5,13 +5,22 @@ namespace app\services;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
-class WhoopsService extends AbstractService
+class WhoopsService
 {
-    public function init(): void
+    /** @var EnvService */
+    private $envService;
+
+    /** @var ConfigService */
+    private $configService;
+
+    public function __construct(EnvService $envService, ConfigService $configService)
     {
-        if(!$this->services->env->isProd()) {
+        $this->envService = $envService;
+        $this->configService = $configService;
+
+        if(!$this->envService->isProd()) {
             $handler = new PrettyPageHandler;
-            $handler->setEditor($this->services->config->get('services.whoops.editor'));
+            $handler->setEditor($this->configService->get('services.whoops.editor'));
             (new Run())->prependHandler($handler)->register();
         }
     }

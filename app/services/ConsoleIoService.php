@@ -5,8 +5,11 @@ namespace app\services;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
-class ConsoleIoService extends AbstractService
+class ConsoleIoService
 {
+    /** @var ConfigService */
+    private $configService;
+
     /** @var string */
     private $commandAlias;
 
@@ -16,39 +19,13 @@ class ConsoleIoService extends AbstractService
     /** @var OutputInterface */
     private $output;
 
-    public function init(): void
+    public function __construct(ConfigService $configService, string $alias, InputInterface $input, OutputInterface $output)
     {
-    }
+        $this->configService = $configService;
 
-    public function setCommandAlias(string $alias): self
-    {
         $this->commandAlias = $alias;
-
-        return $this;
-    }
-
-    public function setInput(InputInterface $input): self
-    {
         $this->input = $input;
-
-        return $this;
-    }
-
-    public function setOutput(OutputInterface $output): self
-    {
         $this->output = $output;
-
-        return $this;
-    }
-
-    public function getInput(): InputInterface
-    {
-        return $this->input;
-    }
-
-    public function getOutput(): OutputInterface
-    {
-        return $this->output;
     }
 
     public function info(string $msg) : void
@@ -71,7 +48,7 @@ class ConsoleIoService extends AbstractService
      * @param string $msg
      */
     public function toLog(string $msg) : void {
-        $path = strtr($this->services->config->get('services.console_io.logs_path'), ['{cmd}' => $this->commandAlias]);
+        $path = strtr($this->configService->get('services.console_io.logs_path'), ['{cmd}' => $this->commandAlias]);
         file_put_contents($path, $msg . PHP_EOL, FILE_APPEND);
     }
 }

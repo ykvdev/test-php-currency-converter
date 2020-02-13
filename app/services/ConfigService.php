@@ -2,17 +2,22 @@
 
 namespace app\services;
 
-class ConfigService extends AbstractService
+class ConfigService
 {
+    /** @var EnvService */
+    private $envService;
+
     /** @var array */
     private $config;
 
-    public function init() : void
+    public function __construct(EnvService $envService)
     {
+        $this->envService = $envService;
+
         $this->config = array_replace(
             require __DIR__ . '/../../app/configs/services.php',
             require __DIR__ . '/../../app/configs/others.php',
-            require __DIR__ . '/../../app/configs/envs/' . $this->services->env->getCurrent() . '.php'
+            require __DIR__ . '/../../app/configs/envs/' . $this->envService->getCurrent() . '.php'
         );
     }
 

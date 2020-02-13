@@ -2,14 +2,19 @@
 
 namespace app\services;
 
-class RatesDbService extends AbstractService
+class RatesDbService
 {
+    /** @var ConfigService */
+    private $configService;
+
     /** @var array */
     private $db;
 
-    public function init(): void
+    public function __construct(ConfigService $configService)
     {
-        $dbFile = $this->services->config->get('services.rates_db.file');
+        $this->configService = $configService;
+
+        $dbFile = $this->configService->get('services.rates_db.file');
         $this->db = file_exists($dbFile)
             ? json_decode(file_get_contents($dbFile), true, 512, JSON_THROW_ON_ERROR)
             : [];
