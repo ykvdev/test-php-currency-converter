@@ -4,20 +4,14 @@ namespace app\services;
 
 class ConfigService
 {
-    /** @var EnvService */
-    private $env;
-
     /** @var array */
     private $config;
 
-    public function __construct(EnvService $env)
+    public function __construct()
     {
-        $this->env = $env;
-
         $this->config = array_replace(
             require __DIR__ . '/../../app/configs/services.php',
             require __DIR__ . '/../../app/configs/others.php',
-            require __DIR__ . '/../../app/configs/envs/' . $this->env->getCurrent() . '.php'
         );
     }
 

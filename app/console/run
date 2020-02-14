@@ -8,7 +8,12 @@ use \app\services\WhoopsService;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$di = new DI\Container();
+//$di = new DI\Container();
+
+$builder = new \DI\ContainerBuilder();
+// $builder->enableCompilation(__DIR__ . '/tmp');
+// $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
+$di = $builder->build();
 
 $app = new Application('Currency Converter CLI', '1.0');
 $app->addCommands([

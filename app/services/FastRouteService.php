@@ -11,16 +11,12 @@ class FastRouteService
     /** @var ConfigService */
     private $config;
 
-    /** @var EnvService */
-    private $env;
-
     /** @var Dispatcher */
     private $dispatcher;
 
-    public function __construct(ConfigService $config, EnvService $env)
+    public function __construct(ConfigService $config)
     {
         $this->config = $config;
-        $this->env = $env;
 
         $this->dispatcher = cachedDispatcher(function(RouteCollector $r) {
             foreach ($this->config->get('services.fast_route.routes') as $routeParts) {
@@ -29,7 +25,7 @@ class FastRouteService
             }
         }, [
             'cacheFile' => $this->config->get('services.fast_route.cache_file'),
-            'cacheDisabled' => !$this->env->isProd(),
+            'cacheDisabled' => true,
         ]);
     }
 

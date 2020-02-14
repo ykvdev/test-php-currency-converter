@@ -7,21 +7,15 @@ use Whoops\Run;
 
 class WhoopsService
 {
-    /** @var EnvService */
-    private $env;
-
     /** @var ConfigService */
     private $config;
 
-    public function __construct(EnvService $env, ConfigService $config)
+    public function __construct(ConfigService $config)
     {
-        $this->env = $env;
         $this->config = $config;
 
-        if(!$this->env->isProd()) {
-            $handler = new PrettyPageHandler;
-            $handler->setEditor($this->config->get('services.whoops.editor'));
-            (new Run())->prependHandler($handler)->register();
-        }
+        $handler = new PrettyPageHandler;
+        $handler->setEditor($this->config->get('services.whoops.editor'));
+        (new Run())->prependHandler($handler)->register();
     }
 }

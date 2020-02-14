@@ -2,12 +2,11 @@
 
 ## Usage
 
-1. `git clone https://bitbucket.org/atoumus/test_ringostat_currency_converter.git && cd ./test_ringostat_currency_converter`
-1. `composer install`
-1. Run as a dev env: `php -S 0.0.0.0:8000 -t public ./public/index.php` - errors will showing
-1. Or run as a prod env: `ENV_CURRENT=prod php -S 0.0.0.0:8000 -t public ./public/index.php` - errors will not showing
-1. Update currencies `./app/console/run update-currency-rates`
-1. Go to: http://{your-ip-address}:8000 in browser
+1. Clone: `git clone https://bitbucket.org/atoumus/test_ringostat_currency_converter.git && cd ./test_ringostat_currency_converter`
+1. Install dependencies: `composer install`
+1. Update currency rates: `./app/console/run update-currency-rates`
+1. Run PHP built-in server: `php -S 0.0.0.0:8000 -t public ./public/index.php`
+1. Go to browser: http://{your-ip-address}:8000
 
 ## Task Description
 

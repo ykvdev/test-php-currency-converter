@@ -17,9 +17,6 @@ new class
     /** @var \DI\Container */
     private $di;
 
-    /** @var EnvService */
-    private $env;
-
     /** @var FastRouteService */
     private $fastRoute;
 
@@ -31,30 +28,18 @@ new class
 
         require __DIR__ . '/../vendor/autoload.php';
 
-        $this->di = new DI\Container();
-        $this->di->make(WhoopsService::class);
-        $this->env = $this->di->get(EnvService::class);
-        $this->fastRoute = $this->di->get(FastRouteService::class);
+//        $this->di = new DI\Container();
+//        $this->di->make(WhoopsService::class);
+//        $this->fastRoute = $this->di->get(FastRouteService::class);
 
-// for prod
-//        $builder = new \DI\ContainerBuilder();
+        $builder = new \DI\ContainerBuilder();
 //        $builder->enableCompilation(__DIR__ . '/tmp');
 //        $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
-//        $container = $builder->build();
+        $this->di = $builder->build();
+        $this->di->make(WhoopsService::class);
+        $this->fastRoute = $this->di->get(FastRouteService::class);
 
-        try {
-            $actionData = $this->getActionData();
-//            $this->invokeAction($actionData['controller'], $actionData['action'], $actionData['params']);
-            $this->di->call([$actionData['controller'], $actionData['action'] . 'Action'],
-                ['routeParams' => $actionData['params']]);
-        } catch (\Throwable $e) {
-            if($this->env->isProd()) {
-//                $this->invokeAction(CommonController::class, 'error500');
-                $this->di->call([CommonController::class, 'error500']);
-            } else {
-                throw $e;
-            }
-        }
+        $this->runAction();
     }
 
     /**
@@ -83,7 +68,7 @@ new class
         }
     }
 
-    private function getActionData(): array
+    private function runAction(): void
     {
         $routeData = $this->fastRoute->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
         switch ($routeData['result']) {
@@ -105,7 +90,8 @@ new class
                 break;
         }
 
-        return compact('controller', 'action', 'params');
+        //            $this->invokeAction($actionData['controller'], $actionData['action'], $actionData['params']);
+        $this->di->call([$controller, $action . 'Action'], ['routeParams' => $params]);
     }
 
 //    private function invokeAction(string $controllerClassName, string $actionAlias, array $routeParams = []) : void
