@@ -21,9 +21,6 @@ abstract class AbstractController
         $this->config = $config;
         $this->viewRenderer = $viewRenderer;
         $this->routeParams = $routeParams;
-
-//        $this->get = array_map('trim', array_merge($routeParams, $_GET));
-//        $this->post = array_map('trim', $_POST);
     }
 
     protected function getVar(string $var): ?string

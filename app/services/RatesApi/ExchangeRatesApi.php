@@ -2,8 +2,6 @@
 
 namespace app\services\RatesApi;
 
-use app\services\GuzzleService;
-
 class ExchangeRatesApi extends AbstractRatesApi
 {
     private const API_URL_GET_LATEST = 'https://api.exchangeratesapi.io/latest?base=%s&symbols=%s';

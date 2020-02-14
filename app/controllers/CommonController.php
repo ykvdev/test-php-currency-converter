@@ -15,10 +15,4 @@ class CommonController extends AbstractController
         header($_SERVER['SERVER_PROTOCOL'] . ' 405 Method Not Allowed', true, 405);
         $this->renderView('common/error405');
     }
-
-    public function error500Action() : void
-    {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        $this->renderView('common/error500');
-    }
 }

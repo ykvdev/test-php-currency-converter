@@ -33,8 +33,6 @@ class GuzzleService
             return null;
         }
 
-        $responseContents = $response->getBody()->getContents();
-
-        return $responseContents;
+        return $response->getBody()->getContents();
     }
 }

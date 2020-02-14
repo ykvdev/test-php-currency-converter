@@ -3,11 +3,7 @@
 use app\controllers\AbstractController;
 use app\controllers\CommonController;
 use FastRoute\Dispatcher;
-use \app\services\ConfigService;
-use \app\services\ConsoleIoService;
 use \app\services\FastRouteService;
-use \app\services\GuzzleService;
-use \app\services\ViewRendererService;
 use \app\services\WhoopsService;
 
 new class
@@ -26,14 +22,7 @@ new class
 
         require __DIR__ . '/../vendor/autoload.php';
 
-//        $this->di = new DI\Container();
-//        $this->di->make(WhoopsService::class);
-//        $this->fastRoute = $this->di->get(FastRouteService::class);
-
-        $builder = new \DI\ContainerBuilder();
-//        $builder->enableCompilation(__DIR__ . '/tmp');
-//        $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
-        $this->di = $builder->build();
+        $this->di = new DI\Container();
         $this->di->make(WhoopsService::class);
         $this->fastRoute = $this->di->get(FastRouteService::class);
 
@@ -64,6 +53,7 @@ new class
             } else {
                 $type = '';
             }
+
             header('Content-Type: ' . $type);
             echo file_get_contents($filePath);
             exit;
@@ -92,16 +82,6 @@ new class
                 break;
         }
 
-        //            $this->invokeAction($actionData['controller'], $actionData['action'], $actionData['params']);
         $this->di->call([$controller, $action . 'Action'], ['routeParams' => $params]);
     }
-
-//    private function invokeAction(string $controllerClassName, string $actionAlias, array $routeParams = []) : void
-//    {
-        /** @var AbstractController $controller */
-//        $controller = new $controllerClassName($this->services, $routeParams);
-//        $controller->{$actionAlias . 'Action'}();
-
-//        $this->di->call([$controllerClassName, $actionAlias . 'Action'], compact('routeParams'));
-//    }
 };
