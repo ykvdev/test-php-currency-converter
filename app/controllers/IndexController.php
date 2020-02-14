@@ -4,7 +4,7 @@ namespace app\controllers;
 
 class IndexController extends AbstractController
 {
-    protected function indexAction() : void
+    public function indexAction() : void
     {
         $this->renderView('index/index', [
             'js' => ['/assets/js/page-index.js'],

@@ -18,10 +18,10 @@ new class
     private $di;
 
     /** @var EnvService */
-    private $envService;
+    private $env;
 
     /** @var FastRouteService */
-    private $fastRouteService;
+    private $fastRoute;
 
     public function __construct()
     {
@@ -33,8 +33,8 @@ new class
 
         $this->di = new DI\Container();
         $this->di->make(WhoopsService::class);
-        $this->fastRouteService = $this->di->get(FastRouteService::class);
-        $this->envService = $this->di->get(EnvService::class);
+        $this->env = $this->di->get(EnvService::class);
+        $this->fastRoute = $this->di->get(FastRouteService::class);
 
 // for prod
 //        $builder = new \DI\ContainerBuilder();
@@ -48,7 +48,7 @@ new class
             $this->di->call([$actionData['controller'], $actionData['action'] . 'Action'],
                 ['routeParams' => $actionData['params']]);
         } catch (\Throwable $e) {
-            if($this->envService->isProd()) {
+            if($this->env->isProd()) {
 //                $this->invokeAction(CommonController::class, 'error500');
                 $this->di->call([CommonController::class, 'error500']);
             } else {
@@ -68,8 +68,16 @@ new class
             '/favicon.ico'
         ], true)) {
             $filePath = __DIR__ . $_SERVER['REQUEST_URI'];
-            //    $type = strstr($filePath, '.css') ? 'text/css' : 'image/x-icon';
-            //    header('Content-Type: ' . $type);
+            if(strstr($filePath, '.css')) {
+                $type = 'text/css';
+            } elseif(strstr($filePath, '.js')) {
+                $type = 'text/javascript';
+            } elseif(strstr($filePath, '.ico')) {
+                $type = 'image/x-icon';
+            } else {
+                $type = '';
+            }
+            header('Content-Type: ' . $type);
             echo file_get_contents($filePath);
             exit;
         }
@@ -77,7 +85,7 @@ new class
 
     private function getActionData(): array
     {
-        $routeData = $this->fastRouteService->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $routeData = $this->fastRoute->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
         switch ($routeData['result']) {
             case Dispatcher::NOT_FOUND:
                 $controller = CommonController::class;

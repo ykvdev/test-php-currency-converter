@@ -8,19 +8,19 @@ use Whoops\Run;
 class WhoopsService
 {
     /** @var EnvService */
-    private $envService;
+    private $env;
 
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
-    public function __construct(EnvService $envService, ConfigService $configService)
+    public function __construct(EnvService $env, ConfigService $config)
     {
-        $this->envService = $envService;
-        $this->configService = $configService;
+        $this->env = $env;
+        $this->config = $config;
 
-        if(!$this->envService->isProd()) {
+        if(!$this->env->isProd()) {
             $handler = new PrettyPageHandler;
-            $handler->setEditor($this->configService->get('services.whoops.editor'));
+            $handler->setEditor($this->config->get('services.whoops.editor'));
             (new Run())->prependHandler($handler)->register();
         }
     }

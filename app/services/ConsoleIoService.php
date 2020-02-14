@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 class ConsoleIoService
 {
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
     /** @var string */
     private $commandAlias;
@@ -19,13 +19,30 @@ class ConsoleIoService
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(ConfigService $configService, string $alias, InputInterface $input, OutputInterface $output)
+    public function __construct(ConfigService $config)
     {
-        $this->configService = $configService;
+        $this->config = $config;
+    }
 
-        $this->commandAlias = $alias;
+    public function setCommandAlias(string $commandAlias): self
+    {
+        $this->commandAlias = $commandAlias;
+
+        return $this;
+    }
+
+    public function setInput(InputInterface $input): self
+    {
         $this->input = $input;
+
+        return $this;
+    }
+
+    public function setOutput(OutputInterface $output): self
+    {
         $this->output = $output;
+
+        return $this;
     }
 
     public function info(string $msg) : void
@@ -48,7 +65,7 @@ class ConsoleIoService
      * @param string $msg
      */
     public function toLog(string $msg) : void {
-        $path = strtr($this->configService->get('services.console_io.logs_path'), ['{cmd}' => $this->commandAlias]);
+        $path = strtr($this->config->get('services.console_io.logs_path'), ['{cmd}' => $this->commandAlias]);
         file_put_contents($path, $msg . PHP_EOL, FILE_APPEND);
     }
 }

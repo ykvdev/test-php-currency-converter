@@ -8,17 +8,17 @@ use League\Plates\Extension\URI;
 class ViewRendererService
 {
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
     /** @var Engine */
     private $renderer;
 
-    public function __construct(ConfigService $configService)
+    public function __construct(ConfigService $config)
     {
-        $this->configService = $configService;
+        $this->config = $config;
 
-        $config = $this->configService->get('services.view_renderer');
-        $this->renderer = new Engine($config['path'], $config['extension']);
+        $this->renderer = new Engine($this->config->get('services.view_renderer.path'),
+            $this->config->get('services.view_renderer.extension'));
         $this->renderer->loadExtension(new URI($_SERVER['PATH_INFO'] ?? null));
     }
 

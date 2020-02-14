@@ -7,14 +7,14 @@ use app\services\ViewRendererService;
 abstract class AbstractController
 {
     /** @var ViewRendererService */
-    private $viewRendererService;
+    private $viewRenderer;
 
     /** @var array */
     private $routeParams;
 
-    public function __construct(ViewRendererService $viewRendererService, array $routeParams)
+    public function __construct(ViewRendererService $viewRenderer, array $routeParams = [])
     {
-        $this->viewRendererService = $viewRendererService;
+        $this->viewRenderer = $viewRenderer;
         $this->routeParams = $routeParams;
 
 //        $this->get = array_map('trim', array_merge($routeParams, $_GET));
@@ -33,7 +33,7 @@ abstract class AbstractController
 
     protected function renderView(string $viewAlias, array $vars = []) : void
     {
-        echo $this->viewRendererService->render($viewAlias, $vars);
+        echo $this->viewRenderer->render($viewAlias, $vars);
         exit();
     }
 

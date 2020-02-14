@@ -8,16 +8,16 @@ use GuzzleHttp\RequestOptions;
 class GuzzleService
 {
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
     /** @var Client */
     private $client;
 
-    public function __construct(ConfigService $configService)
+    public function __construct(ConfigService $config)
     {
-        $this->configService = $configService;
+        $this->config = $config;
 
-        $this->client = new Client(['http_errors' => $this->configService->get('guzzle.http_errors')]);
+        $this->client = new Client(['http_errors' => $this->config->get('guzzle.http_errors')]);
     }
 
     public function sendGetRequest(string $url): ?string
@@ -25,7 +25,7 @@ class GuzzleService
         $response = $this->client->request('GET', $url, [
             RequestOptions::ALLOW_REDIRECTS => true,
             RequestOptions::HEADERS => [
-                'User-Agent' => $this->configService->get('guzzle.user_agent'),
+                'User-Agent' => $this->config->get('guzzle.user_agent'),
             ]
         ]);
 

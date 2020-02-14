@@ -5,23 +5,28 @@ namespace app\services;
 class ConfigService
 {
     /** @var EnvService */
-    private $envService;
+    private $env;
 
     /** @var array */
     private $config;
 
-    public function __construct(EnvService $envService)
+    public function __construct(EnvService $env)
     {
-        $this->envService = $envService;
+        $this->env = $env;
 
         $this->config = array_replace(
             require __DIR__ . '/../../app/configs/services.php',
             require __DIR__ . '/../../app/configs/others.php',
-            require __DIR__ . '/../../app/configs/envs/' . $this->envService->getCurrent() . '.php'
+            require __DIR__ . '/../../app/configs/envs/' . $this->env->getCurrent() . '.php'
         );
     }
 
-    public function get(string $path) : mixed
+    /**
+     * @param string $path
+     *
+     * @return mixed
+     */
+    public function get(string $path)
     {
         $pathParts = explode('.', $path);
         $config = $this->config;

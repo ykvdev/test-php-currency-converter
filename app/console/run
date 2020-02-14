@@ -1,11 +1,12 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use \app\services\ServicesContainer;
+//use \app\services\ServicesContainer;
 use \Symfony\Component\Console\Application;
 use \app\cli\commands\UpdateCurrencyRates;
+use \app\services\WhoopsService;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $di = new DI\Container();
 $di->make(WhoopsService::class);

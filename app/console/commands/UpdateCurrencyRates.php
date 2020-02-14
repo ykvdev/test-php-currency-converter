@@ -12,13 +12,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateCurrencyRates extends Command
 {
     /** @var ConsoleIoService */
-    private $consoleIoService;
+    private $io;
 
-    public function __construct(ConsoleIoService $consoleIoService)
+    public function __construct(ConsoleIoService $io)
     {
         parent::__construct();
 
-        $this->consoleIoService = $consoleIoService;
+        $this->io = $io;
     }
 
     protected function configure(): void
@@ -33,10 +33,7 @@ class UpdateCurrencyRates extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->consoleIoService
-            ->setCommandAlias($this->getName())
-            ->setInput($input)
-            ->setOutput($output);
+        $this->io->setCommandAlias($this->getName())->setInput($input)->setOutput($output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
@@ -44,7 +41,7 @@ class UpdateCurrencyRates extends Command
         try {
             //...
         } catch (\Throwable $e) {
-            $this->consoleIoService->error(
+            $this->io->error(
                 PHP_EOL . '(' . get_class($e) . ') ' . $e->getMessage()
                 . PHP_EOL . $e->getTraceAsString()
             );

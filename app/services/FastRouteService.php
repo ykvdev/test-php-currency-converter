@@ -9,26 +9,27 @@ use function FastRoute\cachedDispatcher;
 class FastRouteService
 {
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
     /** @var EnvService */
-    private $envService;
+    private $env;
 
     /** @var Dispatcher */
     private $dispatcher;
 
-    public function __construct(ConfigService $configService)
+    public function __construct(ConfigService $config, EnvService $env)
     {
-        $this->configService = $configService;
+        $this->config = $config;
+        $this->env = $env;
 
         $this->dispatcher = cachedDispatcher(function(RouteCollector $r) {
-            foreach ($this->configService->get('services.fast_route.routes') as $routeParts) {
+            foreach ($this->config->get('services.fast_route.routes') as $routeParts) {
                 [$method, $route, $controller, $action] = $routeParts;
                 $r->addRoute($method, $route, [$controller, $action]);
             }
         }, [
-            'cacheFile' => $this->configService->get('services.fast_route.cache_file'),
-            'cacheDisabled' => !$this->envService->isProd(),
+            'cacheFile' => $this->config->get('services.fast_route.cache_file'),
+            'cacheDisabled' => !$this->env->isProd(),
         ]);
     }
 

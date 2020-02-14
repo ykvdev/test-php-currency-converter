@@ -5,16 +5,16 @@ namespace app\services;
 class RatesDbService
 {
     /** @var ConfigService */
-    private $configService;
+    private $config;
 
     /** @var array */
     private $db;
 
-    public function __construct(ConfigService $configService)
+    public function __construct(ConfigService $config)
     {
-        $this->configService = $configService;
+        $this->config = $config;
 
-        $dbFile = $this->configService->get('services.rates_db.file');
+        $dbFile = $this->config->get('services.rates_db.file');
         $this->db = file_exists($dbFile)
             ? json_decode(file_get_contents($dbFile), true, 512, JSON_THROW_ON_ERROR)
             : [];
