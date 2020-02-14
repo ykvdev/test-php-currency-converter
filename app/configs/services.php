@@ -8,7 +8,7 @@ return [
         ],
 
         'console_io' => [
-            'logs_path' => __DIR__ . '/../../data/logs/console_{cmd}.log',
+            'logs_path' => __DIR__ . '/../../data/logs/console-{cmd}.log',
         ],
 
         'view_renderer' => [
@@ -16,12 +16,13 @@ return [
             'extension' => 'phtml',
         ],
 
-        'rates_db' => [
-            'file' => __DIR__ . '/../../public/rates.json',
-        ],
-
         'whoops' => [
             'editor' => 'phpstorm',
+        ],
+
+        'rates_api' => [
+            'available_symbols' => ['USD', 'GBP', 'RUB', 'JPY', 'CHF', 'EUR'],
+            'file_db' => __DIR__ . '/../../public/rates.json',
         ],
 
         'fast_route' => [
