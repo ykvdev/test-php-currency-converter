@@ -2,18 +2,23 @@
 
 namespace app\controllers;
 
+use app\services\ConfigService;
 use app\services\ViewRendererService;
 
 abstract class AbstractController
 {
+    /** @var ConfigService */
+    protected $config;
+
     /** @var ViewRendererService */
-    private $viewRenderer;
+    protected $viewRenderer;
 
     /** @var array */
-    private $routeParams;
+    protected $routeParams;
 
-    public function __construct(ViewRendererService $viewRenderer, array $routeParams = [])
+    public function __construct(ConfigService $config, ViewRendererService $viewRenderer, array $routeParams = [])
     {
+        $this->config = $config;
         $this->viewRenderer = $viewRenderer;
         $this->routeParams = $routeParams;
 

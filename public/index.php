@@ -7,8 +7,6 @@ use \app\services\ConfigService;
 use \app\services\ConsoleIoService;
 use \app\services\FastRouteService;
 use \app\services\GuzzleService;
-use \app\services\RatesDbService;
-use \app\services\EnvService;
 use \app\services\ViewRendererService;
 use \app\services\WhoopsService;
 
@@ -49,7 +47,9 @@ new class
     {
         if(in_array($_SERVER['REQUEST_URI'], [
             '/assets/css/common.css',
+            '/assets/css/page-index.css',
             '/assets/js/page-index.js',
+            '/rates.json',
             '/favicon.ico'
         ], true)) {
             $filePath = __DIR__ . $_SERVER['REQUEST_URI'];
@@ -57,6 +57,8 @@ new class
                 $type = 'text/css';
             } elseif(strstr($filePath, '.js')) {
                 $type = 'text/javascript';
+            } elseif(strstr($filePath, '.json')) {
+                $type = 'application/json';
             } elseif(strstr($filePath, '.ico')) {
                 $type = 'image/x-icon';
             } else {
