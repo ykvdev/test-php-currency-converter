@@ -11,7 +11,7 @@ class ConfigService
     {
         $this->config = array_replace(
             require __DIR__ . '/../../app/configs/services.php',
-            require __DIR__ . '/../../app/configs/others.php',
+            require __DIR__ . '/../../app/configs/others.php'
         );
     }
 
