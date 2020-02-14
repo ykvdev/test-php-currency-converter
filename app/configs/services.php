@@ -22,7 +22,7 @@ return [
 
         'rates_api' => [
             'available_symbols' => ['USD', 'GBP', 'RUB', 'JPY', 'CHF', 'EUR'],
-            'file_db' => __DIR__ . '/../../public/rates.json',
+            'file_db' => __DIR__ . '/../../public_html/rates.json',
         ],
 
         'fast_route' => [

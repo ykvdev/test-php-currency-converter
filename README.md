@@ -5,7 +5,7 @@
 1. Clone: `git clone https://bitbucket.org/atoumus/test_ringostat_currency_converter.git && cd ./test_ringostat_currency_converter`
 1. Install dependencies: `composer install`
 1. Update currency rates: `./app/console/run update-currency-rates`
-1. Run PHP built-in server: `php -S 0.0.0.0:8000 -t public ./public/index.php`
+1. Run PHP built-in server: `php -S 0.0.0.0:8000 -t public_html ./public_html/index.php`
 1. Go to browser: http://{your-ip-address}:8000
 
 ## Task Description
