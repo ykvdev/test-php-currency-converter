@@ -28,7 +28,7 @@ $( document ).ready(function() {
         }
 
         function convertAmount() {
-            $.getJSON('/rates.json', function(rates) {
+            $.getJSON('/data/rates.json', function(rates) {
                 let convertedAmount = (fromAmount * rates[fromCurrency][toCurrency]).toFixed(2);
                 toAmountField.val(convertedAmount.toString());
 

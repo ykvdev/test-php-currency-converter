@@ -38,7 +38,7 @@ new class
             '/assets/css/common.css',
             '/assets/css/page-index.css',
             '/assets/js/page-index.js',
-            '/rates.json',
+            '/data/rates.json',
             '/favicon.ico'
         ], true)) {
             $filePath = __DIR__ . $_SERVER['REQUEST_URI'];
