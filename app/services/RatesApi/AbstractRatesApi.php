@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services\RatesApi;
 
@@ -7,11 +7,9 @@ use app\services\GuzzleService;
 
 abstract class AbstractRatesApi
 {
-    /** @var ConfigService */
-    protected $config;
+    protected ConfigService $config;
 
-    /** @var GuzzleService */
-    protected $guzzle;
+    protected GuzzleService $guzzle;
 
     public function __construct(GuzzleService $guzzle, ConfigService $config)
     {

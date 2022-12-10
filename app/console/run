@@ -1,12 +1,15 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
+<?php
 
+namespace app\console;
+
+use DI\Container;
 use \Symfony\Component\Console\Application;
 use \app\console\commands\UpdateCurrencyRates;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$di = new DI\Container();
+$di = new Container();
 
 $app = new Application('Currency Converter CLI', '1.0');
 $app->addCommands([

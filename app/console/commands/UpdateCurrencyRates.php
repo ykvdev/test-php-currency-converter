@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\console\commands;
 
@@ -12,14 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCurrencyRates extends Command
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
-    /** @var ConsoleIoService */
-    private $io;
+    private ConsoleIoService $io;
 
-    /** @var AbstractRatesApi */
-    private $ratesApi;
+    private AbstractRatesApi $ratesApi;
 
     public function __construct(ConsoleIoService $io, ConfigService $config, ExchangeRatesApi $ratesApi)
     {
@@ -36,10 +33,6 @@ class UpdateCurrencyRates extends Command
             ->setDescription('Get new currency rates');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io->setCommandAlias($this->getName())->setInput($input)->setOutput($output);

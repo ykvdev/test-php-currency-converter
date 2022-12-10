@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services;
 
@@ -7,11 +7,9 @@ use GuzzleHttp\RequestOptions;
 
 class GuzzleService
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
-    /** @var Client */
-    private $client;
+    private Client $client;
 
     public function __construct(ConfigService $config)
     {

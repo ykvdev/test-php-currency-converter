@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services;
 
@@ -8,11 +8,9 @@ use function FastRoute\cachedDispatcher;
 
 class FastRouteService
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
-    /** @var Dispatcher */
-    private $dispatcher;
+    private Dispatcher $dispatcher;
 
     public function __construct(ConfigService $config)
     {
@@ -42,10 +40,6 @@ class FastRouteService
 
     /**
      * Strip query string (?foo=bar) and decode URI
-     *
-     * @param string $requestUri
-     *
-     * @return string
      */
     private function prepareRequestUri(string $requestUri): string
     {

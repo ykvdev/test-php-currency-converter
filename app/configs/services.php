@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 return [
     'services' => [
@@ -21,8 +21,8 @@ return [
         ],
 
         'rates_api' => [
-            'available_symbols' => ['USD', 'GBP', 'RUB', 'JPY', 'CHF', 'EUR'],
-            'file_db' => __DIR__ . '/../../public_html/data/rates.json',
+            'available_symbols' => ['USD', 'RUB', 'EUR'],
+            'file_db' => __DIR__ . '/../../public/data/rates.json',
         ],
 
         'fast_route' => [

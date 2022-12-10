@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services;
 
@@ -7,17 +7,11 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class ConsoleIoService
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
-    /** @var string */
-    private $commandAlias;
+    private string $commandAlias;
 
-    /** @var InputInterface */
-    private $input;
-
-    /** @var OutputInterface */
-    private $output;
+    private OutputInterface $output;
 
     public function __construct(ConfigService $config)
     {
@@ -45,26 +39,20 @@ class ConsoleIoService
         return $this;
     }
 
-    public function info(string $msg) : void
+    public function info(string $msg): void
     {
         $msg = date('Y-m-d H:i:s') . ' [INFO] ' . $msg;
         $this->output->writeln($msg);
         $this->toLog($msg);
     }
 
-    /**
-     * @param string $msg
-     */
-    public function error(string $msg) : void {
+    public function error(string $msg): void {
         $msg = date('Y-m-d H:i:s') . ' [ERROR] ' . $msg;
         $this->output->writeln("<error>{$msg}</error>");
         $this->toLog($msg);
     }
 
-    /**
-     * @param string $msg
-     */
-    public function toLog(string $msg) : void {
+    public function toLog(string $msg): void {
         $path = strtr($this->config->get('services.console_io.logs_path'), ['{cmd}' => $this->commandAlias]);
         file_put_contents($path, $msg . PHP_EOL, FILE_APPEND);
     }

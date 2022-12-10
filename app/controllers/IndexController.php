@@ -1,10 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\controllers;
 
 class IndexController extends AbstractController
 {
-    public function indexAction() : void
+    public function indexAction(): void
     {
         $this->renderView('index/index', [
             'availableCurrencies' => $this->config->get('services.rates_api.available_symbols'),

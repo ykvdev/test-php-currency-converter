@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\controllers;
 
@@ -7,14 +7,11 @@ use app\services\ViewRendererService;
 
 abstract class AbstractController
 {
-    /** @var ConfigService */
-    protected $config;
+    protected ConfigService $config;
 
-    /** @var ViewRendererService */
-    protected $viewRenderer;
+    protected ViewRendererService $viewRenderer;
 
-    /** @var array */
-    protected $routeParams;
+    protected array $routeParams;
 
     public function __construct(ConfigService $config, ViewRendererService $viewRenderer, array $routeParams = [])
     {
@@ -33,16 +30,13 @@ abstract class AbstractController
         return trim($_POST[$var]) ?? null;
     }
 
-    protected function renderView(string $viewAlias, array $vars = []) : void
+    protected function renderView(string $viewAlias, array $vars = []): void
     {
         echo $this->viewRenderer->render($viewAlias, $vars);
         exit();
     }
 
-    /**
-     * @param array|object|string $data
-     */
-    protected function renderJson($data) : void
+    protected function renderJson(mixed $data): void
     {
         header('Content-Type: application/json');
 
@@ -57,12 +51,12 @@ abstract class AbstractController
         exit();
     }
 
-    protected function goBack() : void
+    protected function goBack(): void
     {
         $this->redirect($_SERVER['HTTP_REFERER']);
     }
 
-    protected function redirect(string $toUrl, $code = 301) : void
+    protected function redirect(string $toUrl, int $code = 301): void
     {
         header('Location: ' . $toUrl, true, $code);
         exit();

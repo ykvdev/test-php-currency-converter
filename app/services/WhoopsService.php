@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services;
 
@@ -7,8 +7,7 @@ use Whoops\Run;
 
 class WhoopsService
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
     public function __construct(ConfigService $config)
     {

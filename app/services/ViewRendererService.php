@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace app\services;
 
@@ -7,11 +7,9 @@ use League\Plates\Extension\URI;
 
 class ViewRendererService
 {
-    /** @var ConfigService */
-    private $config;
+    private ConfigService $config;
 
-    /** @var Engine */
-    private $renderer;
+    private Engine $renderer;
 
     public function __construct(ConfigService $config)
     {
@@ -19,7 +17,7 @@ class ViewRendererService
 
         $this->renderer = new Engine($this->config->get('services.view_renderer.path'),
             $this->config->get('services.view_renderer.extension'));
-        $this->renderer->loadExtension(new URI($_SERVER['PATH_INFO'] ?? null));
+        //$this->renderer->loadExtension(new URI($_SERVER['PATH_INFO'] ?? null));
     }
 
     public function render(string $viewAlias, array $vars = []): string
