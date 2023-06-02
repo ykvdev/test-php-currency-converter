@@ -1,10 +1,10 @@
 {
-    "name": "atoumus/php_test_currency_converter",
+    "name": "ykvdev/test-php-currency-converter",
     "type": "project",
     "authors": [
         {
             "name": "YKV",
-            "email": "atoumus@gmail.com"
+            "email": "ykvdev@gmail.com"
         }
     ],
     "require": {

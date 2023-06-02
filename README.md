@@ -2,7 +2,7 @@
 
 ## Usage
 
-1. Clone: `git clone https://bitbucket.org/atoumus/php_test_currency_converter.git && cd ./php_test_currency_converter`
+1. Clone: `git clone git@github.com:ykvdev/test-php-currency-converter.git && cd ./test-php-currency-converter`
 1. Install PHP dependencies: `composer install`
 1. Install JS/CSS dependencies: `npm install --prefix ./public/assets`
 1. Update currency rates: `./app/console/run update-currency-rates`
